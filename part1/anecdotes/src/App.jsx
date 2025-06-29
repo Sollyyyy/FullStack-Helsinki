@@ -28,12 +28,17 @@ const App = () => {
   // console.log("selected", selected);
   return (
     <>
+      <h1>Anecdote of the day</h1>
+      <br></br>
       {anecdotes[selected]}
       <br></br>
       has {copy[selected]} votes
       <br></br>
       <Button onClick={incVotes} text='Vote' />
       <Button onClick={randomNumber} text='Next Anecdote'/>
+      <h1>Anecdote with most votes</h1>
+      <br></br>
+      {anecdotes[copy.indexOf(Math.max(...copy))]}
     </>
   )
 }
