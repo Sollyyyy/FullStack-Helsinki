@@ -10,12 +10,19 @@ const App = () => {
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [search, setSearch] = useState('')
+  const [showAll, setShowAll] = useState(false)
+
   const names = persons.map(person=>person.name)
   const handleNameChange = (event) =>{
     setNewName(event.target.value)
   }
   const handleNumberChange = (event) =>{
     setNewNumber(event.target.value)
+  }
+  const handleSearchChange = (event) =>{
+    console.log(event.target.value)
+    setSearch(event.target.value)
   }
 
   const addPerson = (event) => {
@@ -34,9 +41,18 @@ const App = () => {
       alert(`${person.name} is already added to the phonebook`)
     }
   }
+  const personsToShow = persons.filter(person => person.name.includes(search))
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        <form>
+        <p>filter shown with </p> 
+            <input value={search} onChange={handleSearchChange}/>
+        </form>
+      </div>
+      <h2>add a new</h2>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNameChange}/>
@@ -49,7 +65,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map( person => 
+      {personsToShow.map( person => 
         <p key={person.name}><b>{person.name} {person.number}</b></p>
 
       )
