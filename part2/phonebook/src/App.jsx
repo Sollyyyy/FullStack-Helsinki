@@ -1,5 +1,42 @@
 import { useState } from 'react'
+const Filter = (props) =>{
+  const {search, event} = props  
 
+return(
+      <div>
+        <form>
+          <p>filter shown with </p> 
+          <input value={search} onChange={event}/>
+        </form>
+      </div>
+      )
+}
+const PersonForm = (props) => {
+
+  return(
+      <form onSubmit={props.form}>
+        <div>
+          name: <input value={props.nValue} onChange={props.nChange}/>
+        </div>
+        <div>
+          number: <input value={props.numValue} onChange={props.numChange} />
+        </div>
+
+        <div>
+          <button type="submit">
+            add</button>
+        </div>
+      </form>
+  )
+}
+const Persons = (props) => {
+  
+  return(
+    props.personsToShow.map( person => 
+        <p key={person.name}><b>{person.name} {person.number}</b></p>
+
+      ))
+}
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -11,13 +48,13 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
-  const [showAll, setShowAll] = useState(false)
-
   const names = persons.map(person=>person.name)
   const handleNameChange = (event) =>{
+    console.log(event.target.value)
     setNewName(event.target.value)
   }
   const handleNumberChange = (event) =>{
+    console.log(event.target.value)
     setNewNumber(event.target.value)
   }
   const handleSearchChange = (event) =>{
@@ -46,30 +83,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <form>
-        <p>filter shown with </p> 
-            <input value={search} onChange={handleSearchChange}/>
-        </form>
-      </div>
+      <Filter value={search} event={handleSearchChange}/>
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-          <div>number: <input value={newNumber} onChange={handleNumberChange} /></div>
-
-        <div>
-          <button type="submit">
-            add</button>
-        </div>
-      </form>
+      <PersonForm form={addPerson} nValue={newName} nChange={handleNameChange} numValue={newNumber} numChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      {personsToShow.map( person => 
-        <p key={person.name}><b>{person.name} {person.number}</b></p>
-
-      )
-      }
+      <Persons personsToShow={personsToShow}/>
+      
     </div>
   )
 }
